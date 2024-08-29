@@ -1,0 +1,21 @@
+<div class="app-container">
+  <header>
+    <h1>DSA Visualizer</h1>
+    <nav>
+      <ul>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <li><a routerLink="/algorithms" routerLinkActive="active">Algorithms</a></li>
+        <li><a routerLink="/data-structures" routerLinkActive="active">Data Structures</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 DSA Visualizer. All rights reserved.</p>
+  </footer>
+</div>

@@ -1,0 +1,111 @@
+<main class="main-content">
+    <section class="visualization-section">
+      <section class="array-visualization">
+        <h2>Select an Algorithm</h2>
+        <div class="algorithm-buttons">
+          <button (click)="startSorting('Bubble Sort')" [disabled]="sortingInProgress">Bubble Sort</button>
+          <button (click)="startSorting('Quick Sort')" [disabled]="sortingInProgress">Quick Sort</button>
+          <button (click)="startSorting('Merge Sort')" [disabled]="sortingInProgress">Merge Sort</button>
+        </div>
+      </section>
+
+      <section class="visualization animate__animated animate__fadeInUp">
+        <h2>Visualization</h2>
+        <div class="visualization-container">
+          <div class="array-labels">
+            <div class="label">
+              <div class="color-box default"></div>
+              <span>Unsorted</span>
+            </div>
+            <div class="label">
+              <div class="color-box comparing"></div>
+              <span>Comparing</span>
+            </div>
+            <div class="label">
+              <div class="color-box swapping"></div>
+              <span>Swapping</span>
+            </div>
+            <div class="label">
+              <div class="color-box sorted"></div>
+              <span>Sorted</span>
+            </div>
+            <div class="label" *ngIf="selectedAlgorithm?.name === 'Quick Sort'">
+              <div class="color-box pivot"></div>
+              <span>Pivot</span>
+            </div>
+          </div>
+          <div class="array-container">
+            <svg class="arrows" [attr.width]="array.length * 34" height="50">
+              <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" />
+                </marker>
+              </defs>
+              <line *ngFor="let index of comparisonIndices; let i = index"
+                    [attr.x1]="index * 34 + 17" y1="0"
+                    [attr.x2]="index * 34 + 17" y2="40"
+                    stroke="#f1c40f" stroke-width="2" marker-end="url(#arrowhead)"/>
+              <line *ngFor="let index of swapIndices; let i = index"
+                    [attr.x1]="index * 34 + 17" y1="0"
+                    [attr.x2]="index * 34 + 17" y2="40"
+                    stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+              <rect *ngIf="partitionRange" 
+                    [attr.x]="partitionRange[0] * 34" 
+                    y="0" 
+                    [attr.width]="(partitionRange[1] - partitionRange[0] + 1) * 34" 
+                    height="40" 
+                    fill="rgba(52, 152, 219, 0.2)" 
+                    stroke="#3498db" 
+                    stroke-width="2"/>
+            </svg>
+            <div *ngFor="let item of array; let i = index" class="array-bar" [style.height.px]="item.value * 3" [class.pivot]="i === pivotIndex" [class.default]="item.state === 'default'" [class.comparing]="item.state === 'comparing'" [class.swapping]="item.state === 'swapping'" [class.sorted]="item.state === 'sorted'">
+              {{item.value}}
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="algorithm-steps-section">
+      <div *ngIf="selectedAlgorithm && sortingInProgress" class="algorithm-steps">
+        <h3>Algorithm Steps:</h3>
+        <ol>
+          <li *ngFor="let step of selectedAlgorithm.steps" [class.current-step]="step === currentStep">
+            {{ step }}
+          </li>
+        </ol>
+      </div>
+      <div *ngIf="currentStep" class="current-step-display">
+        <strong>Current Action:</strong> {{ currentStep }}
+      </div>
+    </section>
+
+    <section class="controls animate__animated animate__fadeInUp">
+      <button class="primary" (click)="generateRandomArray()" [disabled]="sortingInProgress">Generate New Array</button>
+      <button *ngIf="sortingInProgress && !isPaused" (click)="pauseSorting()">Pause</button>
+      <button *ngIf="sortingInProgress && isPaused" (click)="resumeSorting()">Resume</button>
+      <div class="speed-control">
+        <label for="speed">Speed:</label>
+        <input type="range" id="speed" [(ngModel)]="speed" min="100" max="1000" step="100" [disabled]="sortingInProgress">
+        <span>{{speed}}ms</span>
+      </div>
+    </section>
+  </main>
+
+  <section *ngIf="selectedAlgorithm" class="algorithm-info animate__animated animate__fadeInUp">
+    <h2>{{selectedAlgorithm.name}}</h2>
+    <p>{{selectedAlgorithm.description}}</p>
+    <h3>Complexity</h3>
+    <p><strong>Time Complexity:</strong> {{selectedAlgorithm.timeComplexity}}</p>
+    <p><strong>Space Complexity:</strong> {{selectedAlgorithm.spaceComplexity}}</p>
+    <h3>Advantages</h3>
+    <ul>
+      <li *ngFor="let advantage of selectedAlgorithm?.advantages">{{advantage}}</li>
+    </ul>
+    <h3>Disadvantages</h3>
+    <ul>
+      <li *ngFor="let disadvantage of selectedAlgorithm?.disadvantages">{{disadvantage}}</li>
+    </ul>
+    <h3>History</h3>
+    <p>{{selectedAlgorithm.history}}</p>
+  </section>

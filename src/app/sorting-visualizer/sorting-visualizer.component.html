@@ -1,0 +1,25 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-center">
+    <div class="array-container position-relative">
+      <!-- Arrow indicator -->
+      <div class="arrow" *ngIf="arrowPosition >= 0" [style.left]="arrowPosition * 60 + 'px'"></div>
+
+      <div
+        *ngFor="let item of array; let i = index"
+        [@sortAnimation]
+        [ngClass]="{
+          'comparing': comparingIndexes.includes(i),
+          'swapping': swappingIndexes.includes(i)
+        }"
+        class="array-item card p-2"
+      >
+        {{ item }}
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center mt-3">
+    <button (click)="sort()" class="btn btn-primary mx-2">Sort</button>
+    <button (click)="reset()" class="btn btn-secondary mx-2">Reset</button>
+  </div>
+</div>
+<!--Hello just checking -->

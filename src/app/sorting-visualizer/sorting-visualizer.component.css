@@ -1,0 +1,39 @@
+.array-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.array-item {
+  width: 60px; /* Adjust width as needed */
+  height: 60px; /* Adjust height as needed */
+  background-color: #ccc;
+  margin: 5px;
+  text-align: center;
+  line-height: 60px; /* Adjust line height to center text vertically */
+  transition: background-color 0.5s, transform 0.5s; /* Smooth transitions */
+  position: relative; /* Position relative for arrow positioning */
+}
+
+.comparing {
+  background-color: lightblue !important; /* Color for comparison */
+  color: black;
+}
+
+.swapping {
+  background-color: yellow !important; /* Color for swapping */
+  color: black;
+}
+
+.arrow {
+  position: absolute;
+  top: -30px; /* Adjust based on the height of the array item */
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid blue; /* Arrow color */
+  z-index: 1;
+  transition: left 0.5s;
+}
